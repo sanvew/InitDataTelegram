@@ -1,0 +1,87 @@
+name: Publish "Telegram InitData" package to the Maven Central Repository
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JDK setup
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Get package version
+        id: package-version
+        run: echo "PKG_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> "$GITHUB_OUTPUT"
+      - name: Build package
+        run: mvn -B package --file pom.xml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: target
+          path: |
+            ${{ github.workspace }}/target
+  release:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check version release exists
+        env:
+          PKG_VERSION: ${{ needs.build.package-version.outputs.PKG_VERSION }}
+        run: echo $PKG_VERSION
+#        run: |
+#          git config --local user.email "action@github.com"
+#          git config --local user.name "GitHub Action"
+#          if ! git ls-remote --tags origin | grep -q "refs/tags/${PKG_VERSION}"; then
+#            git tag -a "${PKG_VERSION}" -m "Release ${PKG_VERSION}"
+#            git push origin "${PKG_VERSION}"
+#          else
+#            echo "Release ${PKG_VERSION} already exist aborting"
+#            exit 1
+#      - uses: ncipollo/release-action@v1
+#        with:
+#          artifacts: "release.tar.gz,foo/*.txt"
+#          tag: $PKG_VERSION
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'v${{ github.run_number }}'
+          release_name: 'Release v${{ github.run_number }}'
+          body: 'Description of the changes in this release'
+  publish-maven-central:
+    runs-on: ubuntu-latest
+    needs: [ release ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: JDK setup
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - uses: actions/download-artifact@v4
+        with:
+          name: target
+          path: ${{ github.workspace }}/target
+      - name: Publish to Apache Maven Central
+        run: ls ./target
+#        run: mvn deploy -Prelease,sonatype-central
+        env:
+          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
