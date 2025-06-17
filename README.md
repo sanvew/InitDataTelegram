@@ -1,53 +1,43 @@
-<div align='center'>
+# Telegram Web App User Validation library
 
-<h1>Library for Telegram Web App User Validation</h1>
+# :construction: WIP
 
-<h4> <span> · </span> <a href="https://github.com/tofitaV/TelegramDataValidation/blob/master/README.md"> Documentation </a> <span> · </span> <a href="https://github.com/tofitaV/TelegramDataValidation/issues"> Report Bug </a> <span> · </span> <a href="https://github.com/tofitaV/TelegramDataValidation/issues"> Request Feature </a> </h4>
-
-
-</div>
-
-# :notebook_with_decorative_cover: Table of Contents
-
-- [About the Project](#star2-about-the-project)
-
-
-## :toolbox: Getting Started
+:link: [Official documentation: Telegram Mini App Init Data](https://docs.telegram-mini-apps.com/platform/init-data)
+## :toolbox: Getting started
 
 ### :bangbang: Prerequisites
-
 - Java 11+
 
-
-### :running: Run Locally
-Call the TelegramAuth.isValid() method and put the initData (it is a string from window.Telegram.WebApp object, you can find doc <a href="https://core.telegram.org/bots/webapps#initializing-mini-apps">here</a> )
-
-Download release TelegramDataValidation.jar file from <a href="https://github.com/tofitaV/TelegramDataValidation/releases/tag/release">release section</a> 
-
-Move this file to your project and run this maven goal
-
-```bash
-mvn install:install-file -Dfile=TelegramDataValidation.jar -DgroupId=org.tg.auth  -DartifactId=telegram-auth -Dversion=1.0 -Dpackaging=jar
-```
-
-Add dependency to your pom.xml
-
+## 📦 Package installation
+### Maven
 ```xml
-<dependency>
-  <groupId>org.tg.auth</groupId>
-  <artifactId>telegram-auth</artifactId>
-  <version>1.0</version>
-</dependency>
+<!-- TODO -->
 ```
 
-```bash
-boolean result = TelegramAuth.isValid(telegramInitData, botToken)
+### Gradle
+```groovy
+// TODO
 ```
 
-or
-
-```bash
-import static org.tg.auth.TelegramAuth.isValid;
-
-boolean result = isValid(telegramInitData, botToken)
+```kotlin
+// kotlin DSL
+// TODO
 ```
+
+## :pencil2: Usage
+```java
+// java usage examples
+```
+
+```kotlin
+// kotlin usage examples
+```
+## :heavy_check_mark: TODO:
+- [ ] add usage examples in README.md
+
+## :paperclip: Next releases plans
+- [ ] implement [3rd party validation](https://docs.telegram-mini-apps.com/platform/init-data#using-telegram-public-key)
+
+## :pushpin: Fork Notice
+
+This repository is a fork of [tofitaV/TelegramDataValidation](https://github.com/tofitaV/TelegramDataValidation), originally created by [tofitaV](https://github.com/tofitaV). It retains the original MIT license and attribution. Changes and further maintenance by [sanvew](https://github.com/sanvew).
