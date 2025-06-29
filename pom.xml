@@ -6,7 +6,7 @@
 
     <groupId>io.github.sanvew</groupId>
     <artifactId>telegram-init-data</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Telegram InitData</name>

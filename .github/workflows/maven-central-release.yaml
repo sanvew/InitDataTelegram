@@ -18,6 +18,8 @@ jobs:
         run: |
           echo "PKG_VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version" pom.xml)" >> "$GITHUB_OUTPUT"
       - name: Check release version already exists
+        env:
+          PKG_VERSION: ${{ steps.package-version.outputs.PKG_VERSION }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -57,6 +59,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ env.PKG_VERSION }}
+          makeLatest: true
           name: "v${{ env.PKG_VERSION }}"
           body: ${{ github.event.head_commit.message }}
           artifacts: "target/${{ github.event.repository.name }}*.jar"
