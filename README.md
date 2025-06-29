@@ -34,11 +34,6 @@
 ```
 ## :heavy_check_mark: TODO:
 - [ ] add usage examples in README.md
-- [ ] automate release, steps:
-    - push to main branch creates tag from pom.xml `project.version`
-    - creates release and uploads files: package.jar, checksums with description from commit
-    - [link1](https://graphite.dev/guides/how-to-automate-tagging-and-release-workflows-in-github)
-
 
 ## :paperclip: Next releases plans
 - [ ] implement [3rd party validation](https://docs.telegram-mini-apps.com/platform/init-data#using-telegram-public-key)
